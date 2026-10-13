@@ -1,0 +1,11 @@
+requisition_id,is_clean,expected_flags,expected_fix
+"6000","true","","No flags expected; retain the recorded approval evidence."
+"6001","true","","Approval equals the limit; no flags expected."
+"6002","false","over_limit","Refer the recorded approval for review by an authorized approver with sufficient limit."
+"6003","false","inactive_approver","Verify the inactive approver record and obtain appropriate review."
+"6004","false","over_limit;inactive_approver","Review both inactive status and insufficient approval authority."
+"6005","false","unresolved_approver","Resolve the approver identity against employee records before relying on the approval."
+"6006","true","","Pending only; no flags from this view does not mean approved."
+"6007","true","","Pending only; verify active authority before any future approval."
+"6008","false","unresolved_approver","Resolve the missing approver identity; this request remains pending."
+"6009","false","over_limit","Review insufficient approval authority; status and entity-type whitespace/case are normalized."

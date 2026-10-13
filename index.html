@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Procura | Procurement Sandbox</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Procura home">
+          <span class="brand-mark">P</span>
+          <span><strong>PROCURA</strong><small>PROCUREMENT LAB</small></span>
+        </a>
+        <div class="topbar-actions">
+          <span class="environment"><span class="status-dot"></span> Sandbox</span>
+          <button class="top-link">Integrations <span class="caret">v</span></button>
+          <button class="top-link">Quick links <span class="caret">v</span></button>
+          <button class="icon-button" aria-label="Notifications">Bell <span class="notification-count">3</span></button>
+          <button class="avatar" aria-label="Open profile menu">AR</button>
+        </div>
+      </header>
+
+      <div class="workspace">
+        <aside class="sidebar" aria-label="Primary navigation">
+          <div class="sidebar-heading">Workspace</div>
+          <nav id="primary-nav"></nav>
+          <div class="sidebar-footer">
+            <div class="ai-chip"><span class="ai-spark">✓</span><span><strong>Local sandbox</strong><small>PostgreSQL connected workspace</small></span></div>
+            <button class="help-link">? Help center</button>
+          </div>
+        </aside>
+
+        <main class="main-content">
+          <div class="breadcrumb"><span>Home</span><span>/</span><strong id="breadcrumb-current">Overview</strong></div>
+          <section class="welcome-row">
+            <div>
+              <p class="eyebrow">THURSDAY, AUGUST 27, 2026</p>
+              <h1 id="page-title">What would you like to do today?</h1>
+              <p class="subtitle">A clear workspace for exploring procurement data and everyday purchasing workflows.</p>
+            </div>
+            <button class="outline-button">Customize view</button>
+          </section>
+
+          <div class="search-wrap">
+            <span class="search-icon">?</span>
+            <input id="global-search" type="search" placeholder="Search records, suppliers, actions..." />
+            <kbd>/</kbd>
+          </div>
+
+          <section id="dashboard-view">
+            <div class="section-heading">
+              <div><p class="eyebrow">YOUR WORKSPACE</p><h2>At a glance</h2></div>
+              <button class="text-button">View all activity <span>-&gt;</span></button>
+            </div>
+            <div class="metric-grid">
+              <article class="metric-card accent-blue"><div class="metric-icon">IN</div><span>Open invoices</span><strong id="metric-invoices">—</strong><small>Outstanding invoices</small></article>
+              <article class="metric-card accent-teal"><div class="metric-icon">SU</div><span>Active suppliers</span><strong id="metric-suppliers">—</strong><small>Approved supplier profiles</small></article>
+              <article class="metric-card accent-purple"><div class="metric-icon">CO</div><span>Contracts renewing</span><strong id="metric-contracts">—</strong><small>Next 30 days</small></article>
+              <article class="metric-card accent-amber"><div class="metric-icon">RI</div><span>Risk actions</span><strong id="metric-risks">—</strong><small>Open assessments</small></article>
+            </div>
+
+            <div class="content-grid">
+              <article class="panel actions-panel">
+                <div class="panel-heading"><div><p class="eyebrow">SHORTCUTS</p><h2>Frequently accessed</h2></div><button class="more-button">...</button></div>
+                <div class="shortcut-grid">
+                  <button class="shortcut" data-open-resource="requisitions"><span class="shortcut-icon teal">+</span><span><strong>Create requisition</strong><small>Start a new request</small></span><i>-&gt;</i></button>
+                  <button class="shortcut" data-open-resource="sourcing_events"><span class="shortcut-icon blue">#</span><span><strong>Launch sourcing event</strong><small>Invite supplier bids</small></span><i>-&gt;</i></button>
+                  <button class="shortcut" data-open-resource="contracts"><span class="shortcut-icon purple">[]</span><span><strong>Author new contract</strong><small>Use a template</small></span><i>-&gt;</i></button>
+                  <button class="shortcut" data-open-resource="approvals"><span class="shortcut-icon amber">!</span><span><strong>Review approvals</strong><small>Items in your queue</small></span><i>-&gt;</i></button>
+                </div>
+              </article>
+
+              <article class="panel activity-panel">
+                <div class="panel-heading"><div><p class="eyebrow">RECENT</p><h2>Activity feed</h2></div><button class="more-button">...</button></div>
+                <div class="activity-list" id="activity-list"><div class="empty-state">Loading activity…</div></div>
+              </article>
+            </div>
+
+            <article class="panel table-panel">
+              <div class="panel-heading"><div><p class="eyebrow">NEEDS YOUR ATTENTION</p><h2>Priority work</h2></div><button class="text-button">Open work queue <span>-&gt;</span></button></div>
+              <div class="table-wrap"><table><thead><tr><th>Item</th><th>Owner</th><th>Area</th><th>Updated</th><th>Status</th></tr></thead><tbody id="priority-table"></tbody></table></div>
+            </article>
+          </section>
+
+          <section id="module-view" class="hidden">
+            <div class="module-hero"><div><p class="eyebrow" id="module-eyebrow">MODULE</p><h2 id="module-title">Procurement</h2><p id="module-description"></p></div><button class="primary-button" id="create-record">+ Create new</button></div>
+            <div class="module-grid"><div class="panel menu-panel"><div class="panel-heading"><div><p class="eyebrow">NAVIGATION</p><h2 id="menu-title">Procurement destinations</h2></div></div><div id="context-menu"></div></div><div class="panel records-panel"><div class="panel-heading"><div><p class="eyebrow">RECORDS</p><h2 id="records-title">Recent records</h2></div><button class="outline-button small" id="refresh-records">Refresh</button></div><div id="record-list"></div></div></div>
+          </section>
+        </main>
+      </div>
+    </div>
+    <div id="record-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-card">
+        <div class="modal-heading"><div><p class="eyebrow" id="modal-eyebrow">RECORD</p><h2 id="modal-title">Record</h2></div><button class="modal-close" aria-label="Close">×</button></div>
+        <div id="modal-body"></div>
+      </div>
+    </div>
+    <script src="workflow-config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

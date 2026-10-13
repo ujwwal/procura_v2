@@ -1,0 +1,9 @@
+{
+  "name": "procura-n8n-automation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Project-local n8n runtime for Procura procurement workflows",
+  "dependencies": {
+    "n8n": "2.38.7"
+  }
+}

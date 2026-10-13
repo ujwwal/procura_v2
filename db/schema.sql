@@ -1,0 +1,100 @@
+CREATE TABLE IF NOT EXISTS suppliers (
+  id SERIAL PRIMARY KEY,
+  code VARCHAR(30) UNIQUE NOT NULL,
+  name VARCHAR(160) NOT NULL,
+  category VARCHAR(100) NOT NULL DEFAULT 'General',
+  email VARCHAR(160),
+  status VARCHAR(30) NOT NULL DEFAULT 'Active',
+  risk_score INTEGER NOT NULL DEFAULT 0 CHECK (risk_score BETWEEN 0 AND 100),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS contracts (
+  id SERIAL PRIMARY KEY,
+  contract_no VARCHAR(30) UNIQUE NOT NULL,
+  title VARCHAR(200) NOT NULL,
+  supplier_id INTEGER REFERENCES suppliers(id) ON DELETE SET NULL,
+  status VARCHAR(30) NOT NULL DEFAULT 'Draft',
+  start_date DATE,
+  end_date DATE,
+  value NUMERIC(14,2) NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS sourcing_events (
+  id SERIAL PRIMARY KEY,
+  event_no VARCHAR(30) UNIQUE NOT NULL,
+  title VARCHAR(200) NOT NULL,
+  category VARCHAR(100) NOT NULL DEFAULT 'General',
+  status VARCHAR(30) NOT NULL DEFAULT 'Draft',
+  closes_at DATE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS requisitions (
+  id SERIAL PRIMARY KEY,
+  req_no VARCHAR(30) UNIQUE NOT NULL,
+  title VARCHAR(200) NOT NULL,
+  requester VARCHAR(120) NOT NULL,
+  department VARCHAR(100) NOT NULL DEFAULT 'General',
+  amount NUMERIC(14,2) NOT NULL DEFAULT 0,
+  status VARCHAR(30) NOT NULL DEFAULT 'Draft',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS purchase_orders (
+  id SERIAL PRIMARY KEY,
+  po_no VARCHAR(30) UNIQUE NOT NULL,
+  title VARCHAR(200) NOT NULL,
+  supplier_id INTEGER REFERENCES suppliers(id) ON DELETE SET NULL,
+  amount NUMERIC(14,2) NOT NULL DEFAULT 0,
+  status VARCHAR(30) NOT NULL DEFAULT 'Open',
+  order_date DATE NOT NULL DEFAULT CURRENT_DATE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS invoices (
+  id SERIAL PRIMARY KEY,
+  invoice_no VARCHAR(30) UNIQUE NOT NULL,
+  supplier_id INTEGER REFERENCES suppliers(id) ON DELETE SET NULL,
+  po_id INTEGER REFERENCES purchase_orders(id) ON DELETE SET NULL,
+  amount NUMERIC(14,2) NOT NULL DEFAULT 0,
+  status VARCHAR(30) NOT NULL DEFAULT 'Received',
+  due_date DATE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS risk_assessments (
+  id SERIAL PRIMARY KEY,
+  assessment_no VARCHAR(30) UNIQUE NOT NULL,
+  supplier_id INTEGER REFERENCES suppliers(id) ON DELETE CASCADE,
+  score INTEGER NOT NULL DEFAULT 0 CHECK (score BETWEEN 0 AND 100),
+  level VARCHAR(30) NOT NULL DEFAULT 'Medium',
+  status VARCHAR(30) NOT NULL DEFAULT 'Open',
+  assessed_at DATE NOT NULL DEFAULT CURRENT_DATE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS approvals (
+  id SERIAL PRIMARY KEY,
+  entity_type VARCHAR(50) NOT NULL,
+  entity_id INTEGER NOT NULL,
+  action VARCHAR(120) NOT NULL,
+  approver VARCHAR(120) NOT NULL,
+  status VARCHAR(30) NOT NULL DEFAULT 'Pending',
+  comment TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS activities (
+  id SERIAL PRIMARY KEY,
+  entity_type VARCHAR(50) NOT NULL,
+  entity_id INTEGER,
+  message TEXT NOT NULL,
+  actor VARCHAR(120) NOT NULL DEFAULT 'Sandbox user',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS suppliers_name_idx ON suppliers (LOWER(name));
+CREATE INDEX IF NOT EXISTS activities_created_idx ON activities (created_at DESC);

@@ -1,0 +1,12 @@
+invoice_id,is_clean,expected_flags,expected_fix
+"5000","true","","No flags expected; review supporting documents through the normal process."
+"5001","false","quantity_mismatch","Reconcile partial billing with ordered quantity; do not treat a partial invoice as wrongdoing."
+"5002","false","price_mismatch","Compare the agreed PO price with the invoice and request clarification or correction."
+"5004","false","missing_receipt","Ask receiving to confirm delivery and record supported receipt evidence."
+"5005","false","overbilled_quantity","Reconcile invoiced quantity with the quantity actually received."
+"5006","false","invoice_before_po","Check the invoice timestamp and PO order date against original documents."
+"5007","false","no_po_link","Identify the supporting PO or review the applicable non-PO process."
+"5008","true","","Baseline control; no flags expected under this view."
+"5009","false","possible_duplicate","Review both invoices for possible duplication before further processing."
+"5010","false","quantity_mismatch;price_mismatch;overbilled_quantity","Reconcile ordered and received quantities and agreed price with the buyer and supplier."
+"5011","true","","Confirm the two receipt records together support the quantity; no flags expected."

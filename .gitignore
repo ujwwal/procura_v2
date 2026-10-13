@@ -1,0 +1,7 @@
+node_modules/
+.env
+.tools/
+automation/n8n/.data/
+automation/n8n/.env
+*.log
+__pycache__/
